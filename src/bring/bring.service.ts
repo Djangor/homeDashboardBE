@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CONSTANTS } from "../Constants";
 import { HttpService } from "@nestjs/axios";
+import { lastValueFrom } from "rxjs";
 const bringApi = require(`bring-shopping`);
 
 
@@ -11,6 +12,7 @@ export class BringService {
 
   cachedItems: object[];
   cachedItemsTSD: number;
+  cachedTranslations: object;
 
 
 
@@ -30,7 +32,16 @@ export class BringService {
               .then((list) => {
                 this.cachedItemsTSD = Date.now();
                 this.cachedItems = list.purchase;
-                resolve(list.purchase);
+                this.getTranslationList()
+                  .then(translations => {
+                    list.purchase.map((listEntry) => {
+                      if (translations.hasOwnProperty(listEntry.name)) {
+                        listEntry.name = translations[listEntry.name]
+                      }
+                    })
+                    resolve(list.purchase);
+                  })
+
               })
               .catch(err => {
                 console.log('Error getting Lists: ' + JSON.stringify(err))
@@ -43,6 +54,16 @@ export class BringService {
         });
       }
     })
+  }
+
+  async getTranslationList(): Promise<any> {
+    if (this.cachedTranslations) {
+      return this.cachedTranslations;
+    }
+    const result$ = this.httpService.get('https://web.getbring.com/locale/articles.en-US.json');
+    const translations = await lastValueFrom(result$);
+    this.cachedTranslations = translations.data;
+    return translations.data;
   }
 
   getLists(): Promise<any> {
