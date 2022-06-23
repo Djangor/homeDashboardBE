@@ -32,6 +32,50 @@
 $ npm install
 ```
 
+## Setting up the Constants (src/Constants.ts)
+```bash
+export const CONSTANTS = {
+  iqAir: {
+    privateLink: //private link to your IQAir device,
+    publicLink: // http:/api.airvisual.com/v2/nearest_city?lat=18.85289&lon=98.952845&key= or whatever location you want,
+    iqAirKey: //iqAir API Key,
+    publicCacheMS: 3600000 //or however long you want to cache (be careful with limits),
+    privateCacheMS: 1800000
+  },
+  google: {
+    calendarId: //ID of the calendar (can be extracted with the calendar list on google cloud API tester),
+    tasklistId: //ID of the Tasklist (see above),
+    cacheMS: 900000
+  },
+  bring: {
+    username: //bring username,
+    password: //bring pwd,
+    cacheMS: 900000,
+    listId: //bring list id, can be extracted by running loadLists
+},
+  weather: {
+    url: //'https://api.openweathermap.org/data/2.5/forecast?id=1153671&units=metric&appid={apikey}',
+    //exchange id to your location and apiKey to your key
+    cacheMS: 450000,
+  }
+};
+```
+
+## Setting up Google Authentication
+
+First you'll need to set up a google Cloud API (enable calendar and tasks)<br>
+Then generate an OAuth2 Key (desktop application type), download the key and store it as 'credentials.json' in the root folder.<br>
+To make it easier, you can update the credentials.json and replace redirect_uris (or set them in the google cloud):
+<br>
+"redirect_uris": [
+"http://localhost:3000/google/setAccessCode"
+]
+<br>
+Next run the BE and call getAuthorizationUrl function from BE google (with postman or curl), this will return a link<br>
+copy the link to a browser on the machine you run it (if you get the link from another host, replace localhost in the redirect uri) <br>
+and follow the instructions, after successfully authenticating, it should redirect to the address above and store the token and return 'token stored'
+
+
 ## Running the app
 
 ```bash
