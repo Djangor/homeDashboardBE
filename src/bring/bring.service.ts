@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CONSTANTS } from "../Constants";
 import { HttpService } from "@nestjs/axios";
-import { lastValueFrom } from "rxjs";
-import * as fs from "fs";
-import * as readline from "readline";
 const bringApi = require(`bring-shopping`);
 
 

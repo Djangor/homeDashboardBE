@@ -21,7 +21,6 @@ export class IqairService {
     } else {
       const source$ = this.httpService.get(CONSTANTS.iqAir.publicLink + CONSTANTS.iqAir.iqAirKey);
       const response = await lastValueFrom(source$);
-      console.log('getting outdoor iqair data: ' + JSON.stringify(response.data));
       const answer = {
         currentPM2: response.data.data.current.pollution.aqius,
         temp: response.data.data.current.weather.tp,
