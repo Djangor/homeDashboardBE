@@ -47,12 +47,12 @@ export class WeatherService {
       upcomingTemp: upcomingWeather.main.temp,
       upcomingWeatherType: this.convertWeatherType(upcomingWeather.weather[0].icon),
       forecast: []};
-    for (let i=1;i<=5;i++) {
+    for (let i=1;i<=3;i++) {
       const nextDate = new Date();
       nextDate.setDate(nextDate.getDate() + i);
       const nextDateStr = nextDate.getFullYear() + '-' + pad(nextDate.getMonth() + 1) + '-' + pad(nextDate.getDate()) + ' 12:00:00';
       const nextEntry = apiResponse.list.filter(function(forecast) {
-        return forecast.dt_txt = nextDateStr
+        return forecast.dt_txt === nextDateStr
       });
       if (nextEntry && nextEntry.length > 0) {
         weather.forecast.push({weatherType: this.convertWeatherType(nextEntry[0].weather[0].icon)})

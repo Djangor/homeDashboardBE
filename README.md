@@ -57,6 +57,12 @@ export const CONSTANTS = {
     url: //'https://api.openweathermap.org/data/2.5/forecast?id=1153671&units=metric&appid={apikey}',
     //exchange id to your location and apiKey to your key
     cacheMS: 450000,
+  },
+  crypto: {
+    url: //'http://api.coincap.io/v2/rates', other exchanges might have a different api
+    baseCurr: //'EUR', currency against which all is converted (API returns to USD)
+    symbols: //['BTC', 'ETH', 'CHF'], symbols that should be extracted
+    inverseSymbols: //['THB'] symbols to extract baseCurr to inverse instead of symbol to baseCurr
   }
 };
 ```
