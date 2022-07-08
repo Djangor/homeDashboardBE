@@ -34,7 +34,6 @@ export class CryptoService {
   async getRates(): Promise<any> {
     const source$ = this.httpService.get(CONSTANTS.crypto.url);
     const response = await lastValueFrom(source$);
-    console.log(response.data.data);
     this.getBaseRate(response.data.data);
     return this.getSelectedRates(response.data.data);
   }
